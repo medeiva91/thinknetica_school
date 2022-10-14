@@ -9,18 +9,19 @@ months = { "January" => 31, "February" => 28, "March" => 31, "April" => 30, "May
 number_day = 0
 
 leap_year = false
-if (year % 4 == 0) 
-  if (year % 100 == 0)
-	if (year % 400 == 0)
-	  leap_year = true
-	end
-  else
-  	leap_year = true
+leap_year =
+  if (year % 4 == 0)
+    if (year % 100 == 0)
+  	if (year % 400 == 0)
+  	  leap_year = true
+  	end
+    else
+    	leap_year = true
+    end
   end
-end
 
 months.each do |key, value|
-  number_day += 1 if (key == "February" && leap_year)
+  number_day += 1 if key == "February" && leap_year
   break if key == month
   number_day += value 
 end

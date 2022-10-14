@@ -10,15 +10,14 @@ loop do
   puts "Input count"
   count = gets.chomp.to_i
 
-  hash[product] =  { price => count }
+  hash[product] =  { price: price, count: count }
 end
 
 sum = 0
 hash.each do |key, value|	
-  arr = value.to_a
-  product_sum = arr[0][0]*arr[0][1]
+  product_sum = value[:price] * value[:count]
   sum += product_sum
-  puts "product: #{key}, price: #{arr[0]}, count: #{arr[1]}, sum: #{product_sum}"
+  puts "product: #{key}, price: #{value[:price] }, count: #{value[:count]}, sum: #{product_sum}"
 end
 
 puts "Purchase amount: #{sum}"
