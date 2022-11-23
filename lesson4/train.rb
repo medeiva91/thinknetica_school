@@ -13,7 +13,7 @@ class Train
   end
 
   def attach_wagon(wagon)
-    @wagons<<wagon if speed.zero?
+    @wagons << wagon if speed.zero? && wagon.type == type
   end
 
   def detach_wagon
@@ -60,5 +60,9 @@ class Train
 
   def next_station
     route.stations[@index_station + 1] if route.stations[@index_station + 1]
+  end
+
+  def each_wagon
+    @wagons.each_with_index { |wagon, index| yield(wagon, index) }
   end
 end

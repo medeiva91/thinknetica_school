@@ -83,13 +83,17 @@ class RailRoad
         display_stations
         puts "Введите номер станции, список поездов на которой хотите посмотреть"
         station = @stations[gets.to_i]
-        station.each_train do |train|
-          puts "Номер: #{train.number}"
-          puts "Тип поезда - #{train.type}"
-          puts "Кол-во вагонов - #{train.wagons.size}"
-          train.each_wagon do |wagon, index|
-            puts "#{index} - тип вагона #{wagon.type}"
+        if station
+          station.each_train do |train|
+            puts "Номер: #{train.number}"
+            puts "Тип поезда - #{train.type}"
+            puts "Кол-во вагонов - #{train.wagons.size}"
+            train.each_wagon do |wagon, index|
+              puts "#{index} - тип вагона #{wagon.type}"
+            end
           end
+        else
+          puts "Вы ввели неправильное номер станции"
         end
       elsif choise == 0
         break
@@ -113,7 +117,7 @@ class RailRoad
       choise = gets.to_i
       case choise
       when 1
-        wagon = get_wagon(train)
+        wagon = create_wagon(train)
         train.attach_wagon(wagon)
       when 2
         @wagons.push(train.detach_wagon)
@@ -188,7 +192,7 @@ class RailRoad
     @trains.push(train)
   end
 
-  def get_wagon(train)
+  def create_wagon(train)
     if train.type == :passenger
         PassengerWagon.new()
     elsif train.type == :cargo
@@ -198,11 +202,21 @@ class RailRoad
 
   def create_route
     display_stations
-    puts "Введите номер начальной станции"
-    start_station = @stations[gets.to_i - 1]
-    puts "Введите номер конечной станции"
-    end_station = @stations[gets.to_i - 1]
-    @routes.push(Route.new(start_station, end_station))
+    if @stations.size > 2
+      loop do
+        puts "Введите корректный номер начальной станции"
+        start_station = @stations[gets.to_i - 1]
+        break if start_station
+      end
+      loop do
+        puts "Введите корректный номер конечной станции"
+        end_station = @stations[gets.to_i - 1]
+        reak if end_station
+      end
+      @routes.push(Route.new(start_station, end_station))
+    else
+      puts "Создайте минимум две станции, чтобы создать маршрут"
+    end
   end
 
   def display_stations

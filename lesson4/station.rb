@@ -7,7 +7,7 @@ class Station
   end
 
   def add_train(train)
-    trains.push(train)
+    trains << train
   end
 
   def train_with_type(type)
@@ -16,5 +16,9 @@ class Station
 
   def send_train(train, next_station)
     trains.delete(train)
+  end
+
+  def each_train
+    @trains.each { |train| yield(train) }
   end
 end
